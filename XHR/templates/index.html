@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="width: 900px; margin: auto;">
+    <br>
+    <br>
+    <form action="/add" method="POST">
+        <input type="text" name="a" id="a">
+        <span> + </span>
+        <input type="text" name="b" id="b">
+        <input type="submit" value="=">
+        <span id="result"></span>
+    </form>
+    <script>
+        const a = document.getElementById('a');
+        const b = document.getElementById('b');
+        const result = document.getElementById('result');
+        const form = document.getElementsByTagName('form')[0];
+        const url = '/add';
+        
+        const http = new XMLHttpRequest();
+        http.onreadystatechange = () => {
+            if (http.readyState == 4 && http.status == 200) {
+                result.innerText = http.responseText;
+            };
+        };
+        
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            http.open('POST', url, true);
+            http.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+            http.send('a='+a.value+'&b='+b.value);
+        };
+    </script>
+</body>
+</html>

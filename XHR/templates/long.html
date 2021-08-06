@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="width: 200px; margin: auto;">
+    <br>
+    <br>
+    <h1 id="text"></h1>
+    <script>
+        const url = '/long';
+        const text = document.getElementById('text');
+        const trigger = new Event('change');
+
+        const http = new XMLHttpRequest();
+        http.timeout = 10000;
+        http.onreadystatechange = async () => {
+            if (http.readyState === XMLHttpRequest.DONE && http.status === 200) {
+                    text.innerText = http.responseText;
+            };
+        };
+
+        http.onloadend = get_data;
+        http.ontimeout = get_data;
+        http.onerror = get_data;
+        
+        function get_data() {
+            http.open('POST', url, true);
+            http.send();
+        }
+
+        get_data();
+
+    </script>
+</body>
+</html>
