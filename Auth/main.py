@@ -13,7 +13,7 @@ def generate_token(user, pwd):
 # Home route - always redirect to login
 @app.route('/')
 def home():
-    return redirect('/login')
+    return redirect('/index')
 
 # Function to check if user is authenticated
 def auth(request):
@@ -35,7 +35,7 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     else:
-        user = request.form.get('user')
+        user = request.form.get('username')
         pwd = request.form.get('password')
         if (user == 'admin' and pwd == 'admin'):
             token = generate_token(user, pwd)
@@ -49,7 +49,7 @@ def login():
 @app.route('/index')
 def index():
     if auth(request):
-        return render_template('index.html')
+        return render_template('index.html', text="Using function")
     else:
         return redirect('/')
     
@@ -67,7 +67,7 @@ def auth_required(f):
 @app.route('/index2')
 @auth_required
 def index2():
-    return render_template('index.html')
+    return render_template('index.html', text="Using decorator")
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)

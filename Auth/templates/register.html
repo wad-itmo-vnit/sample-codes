@@ -16,14 +16,17 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <form action="/login" method="post">
+    <form action="/register" method="post">
         <label for="user">User</label>
         <input type="text" name="username">
         <br>
         <label for="password">Password</label>
         <input type="password" name="password">
-        <input type="submit" value="Login">
+        <br>
+        <label for="password_confirm">Password</label>
+        <input type="password" name="password_confirm">
+        <input type="submit" value="Register">
     </form>
-    <span>Don't have an account yet? <a href="/register">Register</a></span>
+    <span>Already have an account? <a href="/login">Log In</a></span>
 </body>
 </html>
