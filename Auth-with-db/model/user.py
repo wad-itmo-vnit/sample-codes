@@ -9,14 +9,26 @@ def gen_session_token(length=24):
     return token
 
 class User:
-    def __init__(self, db, username, password, token=None):
+    def __init__(self, db, username, password, token=None, avatar='default.jpg'):
         self.db = db
         self.username = username
         self.password = password
         self.token = token
+        self.avatar = avatar
 
         # Using file-database
         # self.dump_to_file()
+    
+    def get_avatar(self):
+        return self.avatar
+    
+    def set_avatar(self, file_name):
+        self.avatar = file_name
+        self.db.users.update_one({"username": self.username}, {
+            "$set" : {
+                "avatar": file_name
+            }
+        })
     
     @classmethod
     def new(cls, db, username, password):
@@ -48,10 +60,7 @@ class User:
         # return cls.from_file(username + ".data")
 
         data = db.users.find_one({"username": username})
-        if "token" not in data.keys() or data["token"] == None:
-            return cls(db, data["username"], data["password"])
-        else:
-            return cls(db, data["username"], data["password"], data["token"])
+        return cls(db, data["username"], data["password"], data.get('token', None), data.get('avatar', 'default.jpg'))
     
     def authenticate(self, password):
         return check_password_hash(self.password, password)
