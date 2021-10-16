@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = app_config.SECRET_KEY
-app.config["MONGO_URI"] = "mongodb://localhost:27017/wad-vnit"
+app.config["MONGO_URI"] = "mongodb://vnit-mongo:27017/wad-vnit"
 mongo = PyMongo(app)
 db = mongo.db
 
@@ -192,4 +192,4 @@ def serve_uploaded(filename):
     return mongo.send_file(filename)
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)

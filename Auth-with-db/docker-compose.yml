@@ -1,0 +1,16 @@
+version: "3.0"
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+      - "5050:8000"
+    command: python ./src/index.py
+    volumes:
+      - .:/usr/src/app/src
+    depends_on:
+      - vnit-mongo
+  vnit-mongo:
+    image: mongo
+    volumes:
+      - ./mongodata:/data/db
